@@ -31,15 +31,3 @@ To use CLI-TaskBord, run the following command in your terminal:
 ./cli-taskbord [command] [options]
 ```
 Replace `[command]` with one of the available commands (add, list, update, delete) and provide any necessary options.
-
-## Contribution Guidelines
-We welcome contributions to CLI-TaskBord! Here’s how you can help:
-
-1. **Fork the repository**: Create your own copy of the project.
-2. **Create a new branch**: Make your changes in a separate branch.
-3. **Submit a pull request**: Once you’re ready, submit a pull request with a clear description of your changes.
-
-Please ensure to follow the code of conduct and adhere to the project's coding standards.
-
-## License
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
