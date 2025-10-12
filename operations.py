@@ -1,7 +1,7 @@
-import inspect
 import sys
 import json
 import os
+from datetime import datetime
 
 TASKS_FILE = "tasks.json"
 
@@ -14,6 +14,8 @@ def load_tasks():
 def save_tasks(tasks):
     with open(TASKS_FILE, "w") as f:
         json.dump(tasks, f)
+
+commands = {}
 
 # help command
 def show_help():
@@ -28,41 +30,75 @@ def exit_app():
 # task management operations
 def add_task(task):
     tasks = load_tasks()
-    tasks.append(task)
+    existing_ids = sorted([t["id"] for t in tasks])
+    new_id = 1
+    for i in existing_ids:
+        if i == new_id:
+            new_id += 1
+        else:
+            break
+
+    new_task = {
+        "id": new_id,
+        "description": task,
+        "created_at": datetime.now().isoformat(),
+        "edited_at": None
+    }
+
+    tasks.append(new_task)
     save_tasks(tasks)
-    print(f"added {task} to the list")
+    print(f"added {task} to the list with id {new_id}")
 
 def remove_task(task):
     tasks = load_tasks()
-    if task in tasks:
-        tasks.remove(task)
-        save_tasks(tasks)
-        print(f"removed {task} from the list")
+    task_found = False
 
-    elif task.isdigit():
-        index = int(task) - 1
-        if 0 <= index < len(tasks):
-            removed_task = tasks.pop(index)
+    # Remove by description
+    for t in tasks:
+        if t["description"] == task:
+            tasks.remove(t)
             save_tasks(tasks)
-            print(f"removed {removed_task} from the list")
-        else:
-            print(f"index {task} out of range")
+            print(f"removed task: {t['description']} with id {t['id']} from the list")
+            task_found = True
+            break
 
-    else:
-        print(f"task {task} not found")
+    # Remove by id if not found by description and task is digit
+    if not task_found and isinstance(task, str) and task.isdigit():
+        task_id = int(task)
+        for t in tasks:
+            if t["id"] == task_id:
+                tasks.remove(t)
+                save_tasks(tasks)
+                print(f"removed task: {t['description']} with id {task_id} from the list")
+                task_found = True
+                break
+        if not task_found:
+            print(f"No task found with id {task_id}.")
 
+    if not task_found and (not (isinstance(task, str) and task.isdigit())):
+        print(f"No task found with description '{task}'.")
+    tasks = load_tasks()
+    if not tasks:
+        print("No tasks found.")
+        return
+    
 def list_tasks():
     tasks = load_tasks()
-    if tasks:
-        for i, task in enumerate(tasks, 1):
-            print(f"{i}. {task}")
-    else:
+    if not tasks:
         print("No tasks found.")
+        return
 
-commands = {
+    # sortiere Tasks nach ID
+    tasks = sorted(tasks, key=lambda x: x["id"])
+    for t in tasks:
+        created = t["created_at"][:16]
+        edited = t["edited_at"][:16] if t["edited_at"] else "-"
+        print(f"ID: {t['id']} | {t['description']} | created: {created} | edited: {edited}")
+
+commands.update({
     "help": show_help,
     "exit": exit_app,
     "add": add_task,
     "remove": remove_task,
     "list": list_tasks
-}
+})

@@ -22,10 +22,14 @@ while True:
         userCommand = splitInput[0]
         args = splitInput[1] if len(splitInput) > 1 else None
 
-    func = operations.commands.get(userCommand)
-    if func:
-        if args:
-            func(args)   # functions that take 1 argument
+        func = operations.commands.get(userCommand)
+        if func:
+            if args:
+                func(args)   # functions that takes 1 argument
+            else:
+                func()  # functions that takes no arguments
         else:
-            func()  # functions that take no arguments
+            print(f"Unknown command: {userCommand}. Type /help for a list of commands.")
+    else:
+        print("Commands should start with a '/' character. Type /help for a list of commands.")
     
