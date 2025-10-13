@@ -42,7 +42,8 @@ def add_task(task):
         "id": new_id,
         "description": task,
         "created_at": datetime.now().isoformat(),
-        "edited_at": None
+        "edited_at": None,
+        "status": None
     }
 
     tasks.append(new_task)
@@ -53,17 +54,9 @@ def remove_task(task):
     tasks = load_tasks()
     task_found = False
 
-    # Remove by description
-    for t in tasks:
-        if t["description"] == task:
-            tasks.remove(t)
-            save_tasks(tasks)
-            print(f"removed task: {t['description']} with id {t['id']} from the list")
-            task_found = True
-            break
-
+#changed this
     # Remove by id if not found by description and task is digit
-    if not task_found and isinstance(task, str) and task.isdigit():
+    if isinstance(task, str) and task.isdigit():
         task_id = int(task)
         for t in tasks:
             if t["id"] == task_id:
@@ -72,15 +65,10 @@ def remove_task(task):
                 print(f"removed task: {t['description']} with id {task_id} from the list")
                 task_found = True
                 break
-        if not task_found:
+        if task_found == False:
             print(f"No task found with id {task_id}.")
-
-    if not task_found and (not (isinstance(task, str) and task.isdigit())):
-        print(f"No task found with description '{task}'.")
-    tasks = load_tasks()
-    if not tasks:
-        print("No tasks found.")
-        return
+    else:
+        print(f"{task} needs to be a digit")
     
 def list_tasks():
     tasks = load_tasks()
@@ -93,12 +81,54 @@ def list_tasks():
     for t in tasks:
         created = t["created_at"][:16]
         edited = t["edited_at"][:16] if t["edited_at"] else "-"
-        print(f"ID: {t['id']} | {t['description']} | created: {created} | edited: {edited}")
+        print(f"ID: {t['id']} | {t['description']} | created: {created} | edited: {edited} | status: {t['status']}")
+
+def doing_task(task):
+    tasks = load_tasks()
+    task_found = False
+
+    # Remove by id if task is digit
+    if isinstance(task, str) and task.isdigit():
+        task_id = int(task)
+        for t in tasks:
+            if t["id"] == task_id:
+                t["status"] = "In Progress"
+                save_tasks(tasks)
+                print(f"Set task: {t['description']} with id {task_id} to in progress")
+                task_found = True
+                break
+        if not task_found:
+            print(f"No task found with id {task_id}.")
+    else:
+        print(f"{task} needs to be a digit")
+
+def finished_task(task):
+    tasks = load_tasks()
+    task_found = False
+
+    # Remove by id if task is digit
+    if isinstance(task, str) and task.isdigit():
+        task_id = int(task)
+        for t in tasks:
+            if t["id"] == task_id:
+                t["status"] = "finished"
+                save_tasks(tasks)
+                print(f"Set task: {t['description']} with id {task_id} to in progress")
+                task_found = True
+                break
+        if not task_found:
+            print(f"No task found with id {task_id}.")
+    else:
+        print(f"{task} needs to be a digit")
+    
+
 
 commands.update({
     "help": show_help,
     "exit": exit_app,
     "add": add_task,
     "remove": remove_task,
-    "list": list_tasks
+    "list": list_tasks,
+    "do": doing_task,
+    "end": finished_task
 })
