@@ -24,10 +24,13 @@ while True:
 
         func = operations.commands.get(userCommand)
         if func:
-            if args:
-                func(args)   # functions that takes 1 argument
-            else:
-                func()  # functions that takes no arguments
+            try:
+                if args:
+                    func(args)   # functions that takes 1 argument
+                else:
+                    func()  # functions that takes no arguments
+            except TypeError as e:
+                print(f"Argument error: Make sure you gave /{userCommand} the right arguments")
         else:
             print(f"Unknown command: {userCommand}. Type /help for a list of commands.")
     else:
