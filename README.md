@@ -6,7 +6,7 @@ Simple, lightweight command-line tool for fast, efficient task management.
 
 CLI-TaskBord provides a small set of commands to add, list, update, and remove tasks, storing them locally in a JSON file (`tasks.json`). It is intentionally minimal and depends only on the Python standard library.
 
-This project is the result of Roadmap.sh: https://roadmap.sh/projects/task-tracker
+"This project is the result of Roadmap.sh: https://roadmap.sh/projects/task-tracker"
 
 ---
 
