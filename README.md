@@ -12,7 +12,6 @@ CLI-TaskBord provides a small set of commands to add, list, update, and remove t
 
 * [Features](#features)
 * [Requirements](#requirements)
-* [Installation](#installation)
 * [Quick Start](#quick-start)
 * [Commands](#commands)
 * [Data Format](#data-format)
