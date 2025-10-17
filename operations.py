@@ -15,12 +15,16 @@ def save_tasks(tasks):
     with open(TASKS_FILE, "w") as f:
         json.dump(tasks, f)
 
+def print_task(t):
+    created = t["created_at"][:16]
+    edited = t["edited_at"][:16] if t["edited_at"] else "-"
+    print(f"ID: {t['id']} | {t['description']} | created: {created} | edited: {edited} | status: {t['status']}")
+
 commands = {}
 
 # help command
 def show_help():
-    for command_name in commands.keys():
-        print(command_name)
+    print(command_descriptions)
 
 # application control operations
 def exit_app():
@@ -80,21 +84,41 @@ def list_tasks(id=None):
         # sortiere Tasks nach ID
         tasks = sorted(tasks, key=lambda x: x["id"])
         for t in tasks:
-            created = t["created_at"][:16]
-            edited = t["edited_at"][:16] if t["edited_at"] else "-"
-            print(f"ID: {t['id']} | {t['description']} | created: {created} | edited: {edited} | status: {t['status']}")
-    else:
+            print_task(t)
+    elif id.isdigit():
         if isinstance(id, str) and id.isdigit():
             task_id = int(id)
             for t in tasks:
                 if t["id"] == task_id:
-                    created = t["created_at"][:16]
-                    edited = t["edited_at"][:16] if t["edited_at"] else "-"
-                    print(f"ID: {t['id']} | {t['description']} | created: {created} | edited: {edited} | status: {t['status']}")
+                    print_task(t)
                     return
             print(f"No task found with id {task_id}.")
-        else:
-            print(f"{id} needs to be a digit")
+    elif id == "done":
+        done_tasks = [t for t in tasks if t["status"] == "finished"]
+        if not done_tasks:
+            print("No finished tasks found.")
+            return
+        done_tasks = sorted(done_tasks, key=lambda x: x["id"])
+        for t in done_tasks:
+            print_task(t)
+    elif id == "doing":
+        doing_tasks = [t for t in tasks if t["status"] == "In Progress"]
+        if not doing_tasks:
+            print("No tasks in progress found.")
+            return
+        doing_tasks = sorted(doing_tasks, key=lambda x: x["id"])
+        for t in doing_tasks:
+            print_task(t)
+    elif id == "none":
+        none_tasks = [t for t in tasks if t["status"] is None]
+        if not none_tasks:
+            print("No tasks with undefined status found.")
+            return
+        none_tasks = sorted(none_tasks, key=lambda x: x["id"])
+        for t in none_tasks:
+            print_task(t)
+    else:
+        print(f"No tasks found with filter {id}.")
 
 def update_task(task):
     tasks = load_tasks()
@@ -167,3 +191,19 @@ commands.update({
     "doing": doing_task,
     "end": finished_task
 })
+
+command_descriptions = """
+/help: Show this help message
+/exit: Exit the app
+/add: Add a new task
+/remove: Remove a task by ID
+/list: List tasks
+    /list            -> all tasks
+    /list [id]       -> specific task by ID
+    /list done       -> finished tasks
+    /list doing      -> tasks in progress
+    /list none       -> tasks without status
+/update: Update a task by ID
+/doing: Mark a task as In Progress
+/end: Mark a task as finished
+"""
