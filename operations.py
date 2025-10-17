@@ -69,19 +69,32 @@ def remove_task(task):
             print(f"No task found with id {task_id}.")
     else:
         print(f"{task} needs to be a digit")
-    
-def list_tasks():
-    tasks = load_tasks()
-    if not tasks:
-        print("No tasks found.")
-        return
 
-    # sortiere Tasks nach ID
-    tasks = sorted(tasks, key=lambda x: x["id"])
-    for t in tasks:
-        created = t["created_at"][:16]
-        edited = t["edited_at"][:16] if t["edited_at"] else "-"
-        print(f"ID: {t['id']} | {t['description']} | created: {created} | edited: {edited} | status: {t['status']}")
+def list_tasks(id=None):
+    tasks = load_tasks()
+    if id is None:
+        if not tasks:
+            print("No tasks found.")
+            return
+
+        # sortiere Tasks nach ID
+        tasks = sorted(tasks, key=lambda x: x["id"])
+        for t in tasks:
+            created = t["created_at"][:16]
+            edited = t["edited_at"][:16] if t["edited_at"] else "-"
+            print(f"ID: {t['id']} | {t['description']} | created: {created} | edited: {edited} | status: {t['status']}")
+    else:
+        if isinstance(id, str) and id.isdigit():
+            task_id = int(id)
+            for t in tasks:
+                if t["id"] == task_id:
+                    created = t["created_at"][:16]
+                    edited = t["edited_at"][:16] if t["edited_at"] else "-"
+                    print(f"ID: {t['id']} | {t['description']} | created: {created} | edited: {edited} | status: {t['status']}")
+                    return
+            print(f"No task found with id {task_id}.")
+        else:
+            print(f"{id} needs to be a digit")
 
 def update_task(task):
     tasks = load_tasks()
@@ -151,6 +164,6 @@ commands.update({
     "remove": remove_task,
     "list": list_tasks,
     "update": update_task,
-    "do": doing_task,
+    "doing": doing_task,
     "end": finished_task
 })
