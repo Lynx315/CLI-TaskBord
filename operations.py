@@ -58,8 +58,6 @@ def remove_task(task):
     tasks = load_tasks()
     task_found = False
 
-#changed this
-    # Remove by id if not found by description and task is digit
     if isinstance(task, str) and task.isdigit():
         task_id = int(task)
         for t in tasks:
@@ -81,7 +79,6 @@ def list_tasks(id=None):
             print("No tasks found.")
             return
 
-        # sortiere Tasks nach ID
         tasks = sorted(tasks, key=lambda x: x["id"])
         for t in tasks:
             print_task(t)
@@ -124,7 +121,6 @@ def update_task(task):
     tasks = load_tasks()
     task_found = False
 
-    # Remove by id if task is digit
     if isinstance(task, str) and task.isdigit():
         task_id = int(task)
         for t in tasks:
@@ -145,7 +141,6 @@ def doing_task(task):
     tasks = load_tasks()
     task_found = False
 
-    # Remove by id if task is digit
     if isinstance(task, str) and task.isdigit():
         task_id = int(task)
         for t in tasks:
@@ -164,7 +159,6 @@ def finished_task(task):
     tasks = load_tasks()
     task_found = False
 
-    # Remove by id if task is digit
     if isinstance(task, str) and task.isdigit():
         task_id = int(task)
         for t in tasks:
