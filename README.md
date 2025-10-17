@@ -1,32 +1,82 @@
+---
+
 # CLI-TaskBord
 
-CLI-TaskBord is a command-line interface tool designed to help users manage and organize their tasks efficiently. With a focus on simplicity and usability, it provides a range of features to streamline task management.
+Simple, lightweight command-line tool for fast, efficient task management.
 
-## Purpose
-The purpose of CLI-TaskBord is to make task management accessible and efficient through a simple command-line interface. It allows users to quickly add, update, and remove tasks without the need for complex interfaces.
+CLI-TaskBord provides a small set of commands to add, list, update, and remove tasks, storing them locally in a JSON file (`tasks.json`). It is intentionally minimal and depends only on the Python standard library.
+
+---
+
+## Table of Contents
+
+* [Features](#features)
+* [Requirements](#requirements)
+* [Installation](#installation)
+* [Quick Start](#quick-start)
+* [Commands](#commands)
+* [Data Format](#data-format)
+* [Examples](#examples)
+* [License](#license)
+* [Troubleshooting](#troubleshooting)
 
 ## Features
-- **Add Tasks**: Quickly add new tasks with a simple command.
-- **List Tasks**: View all your tasks with various filtering options.
-- **Update Tasks**: Modify existing tasks as needed.
-- **Delete Tasks**: Remove tasks that are no longer relevant.
 
-## Installation
-To install CLI-TaskBord, follow these steps:
+* Add tasks quickly from the command line
+* List tasks with a simple output
+* Update task fields
+* Delete tasks
+* Stores all tasks locally in `tasks.json`
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/Lynx315/CLI-TaskBord.git
-   ```
-2. Navigate to the project directory:
-   ```bash
-   cd CLI-TaskBord
-   ```
-3. Install the necessary dependencies. (Specify if there are specific dependencies or a package manager used, e.g., npm, pip, etc.)
+## Requirements
 
-## Usage
-To use CLI-TaskBord, run the following command in your terminal:
+* Python 3.8+ (only uses standard library)
+
+
+
+No external dependencies are required.
+
+## Quick Start
+
+Run the CLI script directly:
+
 ```bash
-./cli-taskbord [command] [options]
+python3 interpreter.py
 ```
-Replace `[command]` with one of the available commands (add, list, update, delete) and provide any necessary options.
+
+All commands are entered using a slash:
+
+```
+/[command] [arguments]
+```
+
+## Commands
+
+* `/add [task]` — Add a new task
+* `/list` — List existing tasks
+* `/update [id] [new info]` — Update an existing task
+* `/remove [id]` — Remove a task
+
+## Data Format
+
+Tasks are stored locally in `tasks.json`. The file contains all task data; details of the fields are handled internally by the program.
+
+## Examples
+
+```
+/list
+/add Buy milk
+/remove 1
+```
+
+## License
+
+This repository includes a LICENSE file — please refer to it for license details.
+
+## Troubleshooting
+
+* If the CLI cannot find `tasks.json`, it may create a new one in the repository root. Ensure the script has write permissions.
+* If you see Python errors, check you are using Python 3.8+ and review the traceback for invalid data.
+
+
+
