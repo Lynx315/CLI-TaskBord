@@ -83,6 +83,27 @@ def list_tasks():
         edited = t["edited_at"][:16] if t["edited_at"] else "-"
         print(f"ID: {t['id']} | {t['description']} | created: {created} | edited: {edited} | status: {t['status']}")
 
+def update_task(task):
+    tasks = load_tasks()
+    task_found = False
+
+    # Remove by id if task is digit
+    if isinstance(task, str) and task.isdigit():
+        task_id = int(task)
+        for t in tasks:
+            if t["id"] == task_id:
+                update = input("Update task description: ")
+                t["description"] = update
+                t["edited_at"] = datetime.now().isoformat()
+                save_tasks(tasks)
+                print(f"Updated task to: {t['description']} with id {task_id}")
+                task_found = True
+                break
+        if not task_found:
+            print(f"No task found with id {task_id}.")
+    else:
+        print(f"{task} needs to be a digit")
+
 def doing_task(task):
     tasks = load_tasks()
     task_found = False
@@ -129,6 +150,7 @@ commands.update({
     "add": add_task,
     "remove": remove_task,
     "list": list_tasks,
+    "update": update_task,
     "do": doing_task,
     "end": finished_task
 })
