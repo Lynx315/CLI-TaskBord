@@ -10,7 +10,6 @@ The purpose of CLI-TaskBord is to make task management accessible and efficient 
 - **List Tasks**: View all your tasks with various filtering options.
 - **Update Tasks**: Modify existing tasks as needed.
 - **Delete Tasks**: Remove tasks that are no longer relevant.
-- **Prioritization**: Assign priority levels to tasks to focus on what matters most.
 
 ## Installation
 To install CLI-TaskBord, follow these steps:
